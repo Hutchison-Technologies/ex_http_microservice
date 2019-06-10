@@ -23,6 +23,12 @@ defmodule ExHttpMicroservice.Client do
       @spec secure() :: boolean
       def secure(), do: false
 
+      @doc """
+      The host of the service to fire requests at.
+      """
+      @spec host() :: String.t()
+      def host(), do: "localhost"
+
       @spec protocol() :: :http | :https
       defp protocol() do
         cond do
@@ -41,11 +47,11 @@ defmodule ExHttpMicroservice.Client do
 
       @spec process_request_url(String.t()) :: String.t()
       def process_request_url(url) do
-        [protocol() |> Atom.to_string(), "://", url]
+        [protocol() |> Atom.to_string(), "://", host(), url]
         |> Enum.join()
       end
 
-      defoverridable secure: 0
+      defoverridable secure: 0, host: 0
     end
   end
 end

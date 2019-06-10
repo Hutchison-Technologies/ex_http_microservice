@@ -6,8 +6,28 @@ defmodule ExHttpMicroservice.ClientTest do
   end
 
   describe "when client doesn't specify secure" do
-    test "process_request_url/1 returns a string prefixed with http://" do
-      assert "http://" <> _ = DefaultClient.process_request_url("")
+    test "process_request_url/1 returns an http url" do
+      uri = DefaultClient.process_request_url("") |> URI.parse()
+      assert uri.scheme == "http"
+    end
+  end
+
+  describe "when client doesn't specify host" do
+    test "process_request_url/1 returns a localhost url" do
+      uri = DefaultClient.process_request_url("") |> URI.parse()
+      assert uri.host == "localhost"
+    end
+  end
+
+  describe "when client specifies host" do
+    defmodule HostClient do
+      use ExHttpMicroservice.Client
+      def host(), do: "my-host"
+    end
+
+    test "process_request_url/1 returns a #{HostClient.host()} url" do
+      uri = HostClient.process_request_url("") |> URI.parse()
+      assert uri.host == HostClient.host()
     end
   end
 
@@ -17,8 +37,9 @@ defmodule ExHttpMicroservice.ClientTest do
       def secure(), do: false
     end
 
-    test "process_request_url/1 returns a string prefixed with http://" do
-      assert "http://" <> _ = InsecureClient.process_request_url("")
+    test "process_request_url/1 returns an http url" do
+      uri = DefaultClient.process_request_url("") |> URI.parse()
+      assert uri.scheme == "http"
     end
   end
 
@@ -28,8 +49,9 @@ defmodule ExHttpMicroservice.ClientTest do
       def secure(), do: true
     end
 
-    test "process_request_url/1 returns a string prefixed with https://" do
-      assert "https://" <> _ = SecureClient.process_request_url("")
+    test "process_request_url/1 returns an https url" do
+      uri = SecureClient.process_request_url("") |> URI.parse()
+      assert uri.scheme == "https"
     end
   end
 end
