@@ -26,6 +26,14 @@ defmodule ExHttpMicroservice.ClientTest do
     end
   end
 
+  describe "process_request_url/1 when given a path" do
+    test "returns a url ending with the given path" do
+      some_path = "/stairway/to/heaven"
+      uri = DefaultClient.process_request_url(some_path) |> URI.parse()
+      assert uri.path == some_path
+    end
+  end
+
   describe "when client specifies port" do
     defmodule PortClient do
       use ExHttpMicroservice.Client
