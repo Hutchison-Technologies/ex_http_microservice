@@ -26,14 +26,6 @@ defmodule ExHttpMicroservice.ClientTest do
     end
   end
 
-  describe "process_request_url/1 when given a path" do
-    test "returns a url ending with the given path" do
-      some_path = "/stairway/to/heaven"
-      uri = DefaultClient.process_request_url(some_path) |> URI.parse()
-      assert uri.path == some_path
-    end
-  end
-
   describe "when client specifies port" do
     defmodule PortClient do
       use ExHttpMicroservice.Client
@@ -79,6 +71,41 @@ defmodule ExHttpMicroservice.ClientTest do
     test "process_request_url/1 returns an https url" do
       uri = SecureClient.process_request_url("") |> URI.parse()
       assert uri.scheme == "https"
+    end
+  end
+
+  describe "process_request_url/1 when given a path" do
+    test "returns a url ending with the given path" do
+      some_path = "/stairway/to/heaven"
+      uri = DefaultClient.process_request_url(some_path) |> URI.parse()
+      assert uri.path == some_path
+    end
+  end
+
+  describe "process_request_headers/1 when given headers" do
+    test "returns given list plus content-type application/json header" do
+      headers = [{"Accept", "application/json"}, {"Authorization", "Bearer mememe"}]
+      actual = DefaultClient.process_request_headers(headers)
+
+      assert actual ==
+               [{"Content-Type", "application/json"} | headers]
+               |> Enum.sort_by(fn {k, _} -> k end)
+    end
+
+    test "returns unique list" do
+      headers = [{"Content-Type", "application/json"}, {"Content-Type", "application/jsonp"}]
+      actual = DefaultClient.process_request_headers(headers)
+
+      assert actual == [{"Content-Type", "application/json"}]
+    end
+  end
+
+  describe "process_request_headers/1 when given empty list" do
+    test "returns list containing content-type application/json header" do
+      headers = []
+      actual = DefaultClient.process_request_headers(headers)
+
+      assert actual == [{"Content-Type", "application/json"}]
     end
   end
 end

@@ -64,6 +64,13 @@ defmodule ExHttpMicroservice.Client do
         |> Enum.join()
       end
 
+      @spec process_request_headers(headers) :: headers
+      def process_request_headers(headers) do
+        [{"Content-Type", "application/json"} | headers]
+        |> Enum.uniq_by(fn {k, _} -> k end)
+        |> Enum.sort_by(fn {k, _} -> k end)
+      end
+
       defoverridable secure: 0, host: 0, port: 0
     end
   end
