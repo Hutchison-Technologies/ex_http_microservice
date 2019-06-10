@@ -54,8 +54,10 @@ spec:
           cobertura coberturaReportFile: "coverage.xml"
         }
         success {
-          sh "cp -Rf _build /cache/_build"
-          sh "cp -Rf deps /cache/deps"
+          container('testbox') {
+            sh "cp -Rf _build /cache/_build"
+            sh "cp -Rf deps /cache/deps"
+          }
         }
       }
     }
