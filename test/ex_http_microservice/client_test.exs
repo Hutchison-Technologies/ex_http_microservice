@@ -127,4 +127,26 @@ defmodule ExHttpMicroservice.ClientTest do
       end)
     end
   end
+
+  describe "process_response_body/1 when given JSON encoded value" do
+    test "returns JSON decoded value" do
+      body = %{"some" => "request"}
+      actual = DefaultClient.process_response_body(body |> Poison.encode!())
+      assert actual == body
+    end
+  end
+
+  describe "process_response_body/1 when given non JSON encoded value" do
+    test "returns raw value" do
+      body = "# Some non json value here"
+      actual = DefaultClient.process_response_body(body)
+      assert actual == body
+    end
+
+    test "returns empty map for empty body" do
+      body = ""
+      actual = DefaultClient.process_response_body(body)
+      assert actual == %{}
+    end
+  end
 end

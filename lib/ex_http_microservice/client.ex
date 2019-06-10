@@ -74,6 +74,19 @@ defmodule ExHttpMicroservice.Client do
       @spec process_request_body(body) :: body
       def process_request_body(body), do: body |> Poison.encode!()
 
+      @spec process_response_body(binary) :: any
+      def process_response_body(""), do: %{}
+
+      def process_response_body(body) do
+        case Poison.decode(body) do
+          {:ok, response} ->
+            response
+
+          _ ->
+            body
+        end
+      end
+
       defoverridable secure: 0, host: 0, port: 0
     end
   end
