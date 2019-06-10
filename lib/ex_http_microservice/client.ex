@@ -71,6 +71,9 @@ defmodule ExHttpMicroservice.Client do
         |> Enum.sort_by(fn {k, _} -> k end)
       end
 
+      @spec process_request_body(body) :: body
+      def process_request_body(body), do: body |> Poison.encode!()
+
       defoverridable secure: 0, host: 0, port: 0
     end
   end

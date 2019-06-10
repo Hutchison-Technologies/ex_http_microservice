@@ -108,4 +108,23 @@ defmodule ExHttpMicroservice.ClientTest do
       assert actual == [{"Content-Type", "application/json"}]
     end
   end
+
+  describe "process_request_body/1 when given JSON encodable value" do
+    test "returns JSON encoded value" do
+      body = %{"some" => "request"}
+      actual = DefaultClient.process_request_body(body)
+
+      assert actual == body |> Poison.encode!()
+    end
+  end
+
+  describe "process_request_body/1 when given non JSON encodable value" do
+    test "raises an error" do
+      body = {"some", "request"}
+
+      assert_raise(Poison.EncodeError, fn ->
+        DefaultClient.process_request_body(body)
+      end)
+    end
+  end
 end
