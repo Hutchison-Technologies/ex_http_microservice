@@ -20,7 +20,7 @@ defmodule ExHttpMicroservice.Client do
       @doc """
       Determines whether requests are made over HTTP or HTTPS.
       """
-      @spec secure() :: boolean
+      @spec secure() :: boolean()
       def secure(), do: false
 
       @doc """
@@ -28,6 +28,12 @@ defmodule ExHttpMicroservice.Client do
       """
       @spec host() :: String.t()
       def host(), do: "localhost"
+
+      @doc """
+      The port of the service to fire requests at.
+      """
+      @spec port() :: pos_integer()
+      def port(), do: 8080
 
       @spec protocol() :: :http | :https
       defp protocol() do
@@ -46,12 +52,12 @@ defmodule ExHttpMicroservice.Client do
       # --------------------------------------------------------------------------------
 
       @spec process_request_url(String.t()) :: String.t()
-      def process_request_url(url) do
-        [protocol() |> Atom.to_string(), "://", host(), url]
+      def process_request_url(path) do
+        [protocol() |> Atom.to_string(), "://", host(), ":", port(), path]
         |> Enum.join()
       end
 
-      defoverridable secure: 0, host: 0
+      defoverridable secure: 0, host: 0, port: 0
     end
   end
 end

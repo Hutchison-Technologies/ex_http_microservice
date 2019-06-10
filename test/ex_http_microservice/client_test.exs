@@ -19,6 +19,25 @@ defmodule ExHttpMicroservice.ClientTest do
     end
   end
 
+  describe "when client doesn't specify port" do
+    test "process_request_url/1 returns a url with port 8080" do
+      uri = DefaultClient.process_request_url("") |> URI.parse()
+      assert uri.port == 8080
+    end
+  end
+
+  describe "when client specifies port" do
+    defmodule PortClient do
+      use ExHttpMicroservice.Client
+      def port(), do: 9999
+    end
+
+    test "process_request_url/1 returns a url with port #{PortClient.port()}" do
+      uri = PortClient.process_request_url("") |> URI.parse()
+      assert uri.port == PortClient.port()
+    end
+  end
+
   describe "when client specifies host" do
     defmodule HostClient do
       use ExHttpMicroservice.Client
