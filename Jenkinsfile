@@ -46,18 +46,14 @@ spec:
           sh "mix deps.get"
           sh "mix dialyzer"
           sh "mix test --cover"
+          sh "cp -Rf _build /cache/_build"
+          sh "cp -Rf deps /cache/deps"
         }
       }
       post {
         always {
           junit 'junit.xml'
           cobertura coberturaReportFile: "coverage.xml"
-        }
-        success {
-          container('testbox') {
-            sh "cp -Rf _build /cache/_build"
-            sh "cp -Rf deps /cache/deps"
-          }
         }
       }
     }
