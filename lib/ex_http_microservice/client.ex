@@ -58,7 +58,7 @@ defmodule ExHttpMicroservice.Client do
       # https://hexdocs.pm/httpoison/readme.html#wrapping-httpoison-base
       # --------------------------------------------------------------------------------
 
-      @spec process_request_url(String.t()) :: String.t()
+      @spec process_request_url(url) :: url
       def process_request_url(path) do
         [protocol() |> Atom.to_string(), "://", host(), ":", port(), path]
         |> Enum.join()
