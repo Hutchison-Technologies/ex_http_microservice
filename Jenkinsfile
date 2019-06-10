@@ -43,7 +43,7 @@ spec:
           sh "mix local.rebar --force"
           sh "if [ -d \"/cache/_build\" ]; then cp -Rf /cache/_build .; fi"
           sh "if [ -d \"/cache/deps\" ]; then cp -Rf /cache/deps .; fi"
-          sh "mix deps.get"
+          sh "mix do deps.get, compile"
           sh "mix dialyzer"
           sh "mix test --cover"
           sh "cp -Rf _build /cache/_build"
