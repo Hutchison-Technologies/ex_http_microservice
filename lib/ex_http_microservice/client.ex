@@ -18,23 +18,31 @@ defmodule ExHttpMicroservice.Client do
       use HTTPoison.Base
 
       @doc """
-      Returns a boolean determining whether requests are made over HTTP or HTTPS.
+      Determines whether requests are made over HTTP or HTTPS.
       """
       @spec secure() :: boolean
       def secure(), do: false
 
+      @spec protocol() :: :http | :https
       defp protocol() do
         cond do
           secure() ->
-            "https://"
+            :https
 
           true ->
-            "http://"
+            :http
         end
       end
 
+      # --------------------------------------------------------------------------------
+      # From here on the module is simply an HTTPoison.Base wrapper, see
+      # https://hexdocs.pm/httpoison/readme.html#wrapping-httpoison-base
+      # --------------------------------------------------------------------------------
+
+      @spec process_request_url(String.t()) :: String.t()
       def process_request_url(url) do
-        protocol()
+        [protocol() |> Atom.to_string(), "://", url]
+        |> Enum.join()
       end
 
       defoverridable secure: 0
