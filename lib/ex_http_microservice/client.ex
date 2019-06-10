@@ -35,7 +35,7 @@ defmodule ExHttpMicroservice.Client do
       end
 
       # --------------------------------------------------------------------------------
-      # From here on the module is simply an HTTPoison.Base wrapper, see
+      # From here and below the module is simply an HTTPoison.Base wrapper, see
       # https://hexdocs.pm/httpoison/readme.html#wrapping-httpoison-base
       # --------------------------------------------------------------------------------
 
