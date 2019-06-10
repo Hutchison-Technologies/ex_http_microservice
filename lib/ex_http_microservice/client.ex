@@ -3,14 +3,21 @@ defmodule ExHttpMicroservice.Client do
   Use this module to declare an interface to an external service.
   Specify the connection options by overriding functions (see individual functions for docs):
 
-  - `secure()`
-
-
   ## Examples
       defmodule MyUserApiClient do
         use ExHttpMicroservice.Client
 
+        # Determines whether requests are made over HTTP or HTTPS.
+        @spec secure() :: boolean()
         def secure(), do: false
+
+        # The host of the service to fire requests at.
+        @spec host() :: String.t()
+        def host(), do: "localhost"
+
+        # The port of the service to fire requests at.
+        @spec port() :: pos_integer()
+        def port(), do: 8080
       end
   """
   defmacro __using__(_) do
