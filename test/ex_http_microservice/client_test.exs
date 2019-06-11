@@ -26,6 +26,20 @@ defmodule ExHttpMicroservice.ClientTest do
     end
   end
 
+  describe "when DEPLOYED_ENV is set to staging" do
+    test "process_request_url/1 returns a url with staging- prefixed" do
+      uri = DefaultClient.process_request_url("", %{"DEPLOYED_ENV" => "staging"}) |> URI.parse()
+      assert uri.host == "staging-localhost"
+    end
+  end
+
+  describe "when DEPLOYED_ENV is set to prod" do
+    test "process_request_url/1 returns a url with prod- prefixed" do
+      uri = DefaultClient.process_request_url("", %{"DEPLOYED_ENV" => "prod"}) |> URI.parse()
+      assert uri.host == "prod-localhost"
+    end
+  end
+
   describe "when client specifies port" do
     defmodule PortClient do
       use ExHttpMicroservice.Client
