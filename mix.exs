@@ -14,6 +14,9 @@ defmodule ExHttpMicroservice.MixProject do
       name: "ExRunTime",
       source_url: "https://github.com/Hutchison-Technologies/ex_http_microservice",
       homepage_url: "https://github.com/Hutchison-Technologies/ex_http_microservice",
+      dialyzer: [
+        plt_file: {:no_warn, "dialyzer.plt"}
+      ],
       test_coverage: [tool: :covertool]
     ]
   end

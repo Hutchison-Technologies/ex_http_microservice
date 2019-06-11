@@ -32,3 +32,5 @@ ex_run_time-*.tar
 *key.json
 junit.xml
 coverage.xml
+*.plt
+*.plt.hash
