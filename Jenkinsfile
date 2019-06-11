@@ -41,7 +41,7 @@ spec:
         container('testbox') {
           sh "mix local.hex --force"
           sh "mix local.rebar --force"
-          sh "if [ -d \"/cache\" ]; then cp -Rfv /cache .; fi"
+          sh "if [ -d \"/cache\" ]; then cp -Rfv /cache/* .; fi"
           sh "mix do deps.get, compile"
           sh "mix dialyzer"
           sh "rm -rf /cache/*"
