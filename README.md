@@ -1,6 +1,8 @@
 # ExHttpMicroservice
 
-**TODO: Add description**
+Client library to wrap HTTP connection with common microservice implementation.
+
+Use `ExHttpMicroservice.Client` to define your own service client.
 
 ## Installation
 
@@ -18,4 +20,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/ex_http_microservice](https://hexdocs.pm/ex_http_microservice).
-

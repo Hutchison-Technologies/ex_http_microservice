@@ -24,6 +24,9 @@ defmodule ExHttpMicroservice.Client do
     quote do
       use HTTPoison.Base
 
+      # Dialyzer complains that `protocol()` is only ever called with `false` - this is not true so we suppress that warning
+      @dialyzer {:nowarn_function, protocol: 1}
+
       @doc """
       Determines whether requests are made over HTTP or HTTPS.
       """
@@ -42,17 +45,6 @@ defmodule ExHttpMicroservice.Client do
       @spec port() :: pos_integer()
       def port(), do: 8080
 
-      @spec protocol() :: :http | :https
-      defp protocol() do
-        cond do
-          secure?() ->
-            :https
-
-          true ->
-            :http
-        end
-      end
-
       @spec host_prefix(%{String.t() => String.t()}) :: String.t()
       defp host_prefix(env) do
         case deployed_env(env) do
@@ -69,28 +61,36 @@ defmodule ExHttpMicroservice.Client do
       defp deployed_env(%{"DEPLOYED_ENV" => "prod"}), do: :prod
       defp deployed_env(_), do: nil
 
+      @spec protocol(boolean()) :: :http | :https
+      defp protocol(true), do: :https
+      defp protocol(_), do: :http
+
       # --------------------------------------------------------------------------------
       # From here and below the module is simply an HTTPoison.Base wrapper, see
       # https://hexdocs.pm/httpoison/readme.html#wrapping-httpoison-base
       # --------------------------------------------------------------------------------
 
-      @spec process_request_url(url) :: url
       def process_request_url(path, env \\ System.get_env()) do
-        [protocol() |> Atom.to_string(), "://", host_prefix(env), host(), ":", port(), path]
+        [
+          secure?() |> protocol() |> Atom.to_string(),
+          "://",
+          host_prefix(env),
+          host(),
+          ":",
+          port(),
+          path
+        ]
         |> Enum.join()
       end
 
-      @spec process_request_headers(headers) :: headers
       def process_request_headers(headers) do
         [{"Content-Type", "application/json"} | headers]
         |> Enum.uniq_by(fn {k, _} -> k end)
         |> Enum.sort_by(fn {k, _} -> k end)
       end
 
-      @spec process_request_body(body) :: body
       def process_request_body(body), do: body |> Poison.encode!()
 
-      @spec process_response_body(binary) :: any
       def process_response_body(""), do: %{}
 
       def process_response_body(body) do
