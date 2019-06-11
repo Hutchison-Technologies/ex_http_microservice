@@ -1,9 +1,6 @@
 defmodule ExHttpMicroservice do
   @moduledoc """
   Documentation for ExHttpMicroservice.
-  """
-
-  @doc """
   Hello world.
 
   ## Examples
@@ -12,7 +9,4 @@ defmodule ExHttpMicroservice do
       :world
 
   """
-  def hello do
-    :world
-  end
 end
