@@ -45,9 +45,9 @@ spec:
           sh "if [ -d \"/cache/deps\" ]; then cp -Rf /cache/deps .; fi"
           sh "mix do deps.get, compile"
           sh "mix dialyzer"
-          sh "mix test --cover"
           sh "cp -Rf _build /cache/_build"
           sh "cp -Rf deps /cache/deps"
+          sh "mix test --cover"
         }
       }
       post {
