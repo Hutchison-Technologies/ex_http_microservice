@@ -8,8 +8,8 @@ defmodule ExHttpMicroservice.Client do
         use ExHttpMicroservice.Client
 
         # Determines whether requests are made over HTTP or HTTPS.
-        @spec secure() :: boolean()
-        def secure(), do: false
+        @spec secure?() :: boolean()
+        def secure?(), do: false
 
         # The host of the service to fire requests at.
         @spec host() :: String.t()
@@ -27,8 +27,8 @@ defmodule ExHttpMicroservice.Client do
       @doc """
       Determines whether requests are made over HTTP or HTTPS.
       """
-      @spec secure() :: boolean()
-      def secure(), do: false
+      @spec secure?() :: boolean()
+      def secure?(), do: false
 
       @doc """
       The host of the service to fire requests at.
@@ -45,7 +45,7 @@ defmodule ExHttpMicroservice.Client do
       @spec protocol() :: :http | :https
       defp protocol() do
         cond do
-          secure() ->
+          secure?() ->
             :https
 
           true ->
@@ -87,7 +87,7 @@ defmodule ExHttpMicroservice.Client do
         end
       end
 
-      defoverridable secure: 0, host: 0, port: 0
+      defoverridable secure?: 0, host: 0, port: 0
     end
   end
 end

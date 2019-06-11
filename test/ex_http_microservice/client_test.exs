@@ -53,7 +53,7 @@ defmodule ExHttpMicroservice.ClientTest do
   describe "when client insecure" do
     defmodule InsecureClient do
       use ExHttpMicroservice.Client
-      def secure(), do: false
+      def secure?(), do: false
     end
 
     test "process_request_url/1 returns an http url" do
@@ -65,7 +65,7 @@ defmodule ExHttpMicroservice.ClientTest do
   describe "when client secure" do
     defmodule SecureClient do
       use ExHttpMicroservice.Client
-      def secure(), do: true
+      def secure?(), do: true
     end
 
     test "process_request_url/1 returns an https url" do
