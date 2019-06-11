@@ -1,7 +1,7 @@
 defmodule ExHttpMicroservice.Client do
   @moduledoc """
   Use this module to declare an interface to an external service.
-  Specify the connection options by overriding functions (see individual functions for docs):
+  Specify the connection options by overriding functions.
 
   ## Examples
       defmodule MyUserApiClient do
