@@ -41,12 +41,12 @@ spec:
         container('testbox') {
           sh "mix local.hex --force"
           sh "mix local.rebar --force"
-          sh "if [ -d \"/cache/_build\" ]; then cp -Rfv /cache/_build .; fi"
-          sh "if [ -d \"/cache/deps\" ]; then cp -Rfv /cache/deps .; fi"
+          sh "if [ -d \"/cache\" ]; then cp -Rfv /cache .; fi"
           sh "mix do deps.get, compile"
           sh "mix dialyzer"
-          sh "cp -Rfv _build /cache/_build"
-          sh "cp -Rfv deps /cache/deps"
+          sh "rm -rf /cache"
+          sh "cp -Rfv _build /cache"
+          sh "cp -Rfv deps /cache"
           sh "mix test --cover"
         }
       }
