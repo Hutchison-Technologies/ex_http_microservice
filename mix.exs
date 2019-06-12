@@ -11,7 +11,7 @@ defmodule ExHttpMicroservice.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      name: "ExRunTime",
+      name: "ExHttpMicroservice",
       source_url: "https://github.com/Hutchison-Technologies/ex_http_microservice",
       homepage_url: "https://github.com/Hutchison-Technologies/ex_http_microservice",
       dialyzer: [
