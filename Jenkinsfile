@@ -42,6 +42,9 @@ spec:
           sh "mix local.hex --force"
           sh "mix local.rebar --force"
           sh "if [ -d \"/cache\" ]; then cp -rf /cache/* .; fi"
+          sh "ls -alt"
+          sh "ls -alt _build"
+          sh "ls -alt deps"
           sh "mix do deps.get, compile"
           sh "mix dialyzer"
           sh "mix test --cover"
@@ -49,6 +52,9 @@ spec:
           sh "cp -rf _build /cache"
           sh "cp -rf deps /cache"
           sh "cp -rf *.plt /cache"
+          sh "ls -alt /cache"
+          sh "ls -alt /cache/_build"
+          sh "ls -alt /cache/deps"
         }
       }
       post {
