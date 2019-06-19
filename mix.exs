@@ -43,7 +43,7 @@ defmodule ExHttpMicroservice.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:poison, "~> 4.0"},
+      {:poison, "~> 3.1"},
       {:httpoison, "~> 1.5"},
       {:dialyxir, "~> 1.0.0-rc.6", only: [:dev], runtime: false},
       {:eliver, "~> 2.0.0", only: :dev},
